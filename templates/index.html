@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -12,30 +12,6 @@
     
 </head>
 <body>
-
-<!-- ====== NAVBAR ====== -->
-<!-- <nav>
-    <div class="nav-container">
-        <a href="#" class="nav-brand">
-            <i class="fas fa-shield-virus"></i>
-            PhishGuard
-        </a>
-        <ul class="nav-menu">
-            <li><a href="#how">How It Works</a></li>
-            <li><a href="#threats">Threats</a></li>
-            <li><a href="#features">Features</a></li>
-            <li><a href="#use-cases">Use Cases</a></li>
-        </ul>
-        <div class="nav-buttons">
-            <a href="final.html" class="btn-nav btn-outline">
-                <i class="fas fa-play-circle"></i> Try Demo
-            </a>
-            <a href="#" class="btn-nav btn-primary">
-                <i class="fas fa-sign-in-alt"></i> Sign In
-            </a>
-        </div>
-    </div>
-</nav> -->
 
 <nav>
     <div class="nav-container">
@@ -60,51 +36,6 @@
     </div>
 </nav>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const navLinks = Array.from(document.querySelectorAll('.nav-menu a'));
-        const sections = navLinks
-            .map(link => link.getAttribute('href'))
-            .filter(href => href && href.startsWith('#'))
-            .map(hash => document.querySelector(hash))
-            .filter(Boolean);
-
-        function setActiveLinkByHash(hash) {
-            navLinks.forEach(link => {
-                if (link.getAttribute('href') === hash) {
-                    link.classList.add('active');
-                } else {
-                    link.classList.remove('active');
-                }
-            });
-        }
-
-        function updateActiveOnScroll() {
-            const scrollPosition = window.scrollY + window.innerHeight * 0.25;
-            let activeHash = '#home';
-
-            for (const section of sections) {
-                if (section.offsetTop <= scrollPosition) {
-                    activeHash = '#' + section.id;
-                }
-            }
-
-            setActiveLinkByHash(activeHash);
-        }
-
-        navLinks.forEach(link => {
-            link.addEventListener('click', function() {
-                navLinks.forEach(l => l.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
-
-        window.addEventListener('scroll', updateActiveOnScroll, { passive: true });
-        window.addEventListener('hashchange', () => setActiveLinkByHash(window.location.hash || '#home'));
-        updateActiveOnScroll();
-    });
-</script>
-
 <!-- ====== HERO -->
 <section class="hero" id="home">
     <div class="hero-glow-1"></div>
@@ -112,14 +43,14 @@
     <div class="hero-content">
         <div class="hero-badge">
             <span class="dot"></span>
-            AI-Powered Threat Intelligence â€” Active 24/7
+            AI-Powered Threat Intelligence Active 24/7
         </div>
         <h1 class="hero-title">
             Stop Phishing Attacks<br>
             <span class="highlight">Before They Stop You</span>
         </h1>
         <p class="hero-subtitle">
-            PhishGuard uses advanced machine learning to detect malicious URLs, credential-stealing sites, and cyber threats in real time â€” protecting individuals, teams, and enterprises from evolving online dangers.
+            PhishGuard uses advanced machine learning to detect malicious URLs, credential-stealing sites, and cyber threats in real time protecting individuals, teams, and enterprises from evolving online dangers.
         </p>
         <div class="hero-actions">
             <a href="{{ url_for('finial') }}" class="btn-hero-primary">
@@ -189,27 +120,6 @@
                 </div>
             </div>
             <div class="threat-card">
-                <div class="threat-icon-wrap"><i class="fas fa-clipboard-check"></i></div>
-                <div class="threat-content">
-                    <div class="threat-name">Fake Surveys & Prizes</div>
-                    <div class="threat-desc">Deceptive survey pages and fake prize notifications that harvest personal data or push malware downloads.</div>
-                </div>
-            </div>
-            <div class="threat-card">
-                <div class="threat-icon-wrap"><i class="fas fa-truck"></i></div>
-                <div class="threat-content">
-                    <div class="threat-name">Delivery Impersonation</div>
-                    <div class="threat-desc">Spoofed shipping notifications from FedEx, DHL, or Amazon asking you to "verify" payment or personal details.</div>
-                </div>
-            </div>
-            <div class="threat-card">
-                <div class="threat-icon-wrap"><i class="fas fa-virus"></i></div>
-                <div class="threat-content">
-                    <div class="threat-name">Malware Distribution</div>
-                    <div class="threat-desc">Sites hosting ransomware, spyware, trojans, or drive-by download scripts that execute silently in your browser.</div>
-                </div>
-            </div>
-            <div class="threat-card">
                 <div class="threat-icon-wrap"><i class="fas fa-bitcoin-sign"></i></div>
                 <div class="threat-content">
                     <div class="threat-name">Crypto Scams</div>
@@ -221,13 +131,6 @@
                 <div class="threat-content">
                     <div class="threat-name">Banking Phishing</div>
                     <div class="threat-desc">Pixel-perfect clones of banking portals designed to capture account credentials and one-time passwords in real time.</div>
-                </div>
-            </div>
-            <div class="threat-card">
-                <div class="threat-icon-wrap"><i class="fas fa-envelope-open-text"></i></div>
-                <div class="threat-content">
-                    <div class="threat-name">Email Link Attacks</div>
-                    <div class="threat-desc">Malicious links embedded in HTML emails that use URL obfuscation, redirectors, or shortened URLs to evade filters.</div>
                 </div>
             </div>
             
@@ -244,11 +147,6 @@
 
         <div class="features-bento">
             <div class="feat-card col-4">
-                <div class="feat-icon"><i class="fas fa-bolt"></i></div>
-                <div class="feat-title">Sub-2-Second Detection</div>
-                <div class="feat-desc">Parallel analysis pipelines deliver a complete threat verdict in under two seconds, so you never have to wait to know if a link is safe.</div>
-            </div>
-            <div class="feat-card col-4">
                 <div class="feat-icon"><i class="fas fa-brain"></i></div>
                 <div class="feat-title">Deep Learning Model</div>
                 <div class="feat-desc">Trained on 50M+ labeled URLs spanning 8 years of real-world phishing campaigns, our model generalizes to novel zero-day attacks.</div>
@@ -260,11 +158,7 @@
             </div>
 
             <div class="feat-card col-6">
-                <div class="feat-big-num">99.8%</div>
-                <div class="feat-title">Detection Accuracy</div>
-                <div class="feat-desc">Independently validated on a held-out test set of 2M URLs. Our false-positive rate is below 0.03% â€” meaning legitimate sites are almost never incorrectly flagged.</div>
-            </div>
-            <div class="feat-card col-6">
+
                 <div class="feat-icon"><i class="fas fa-certificate"></i></div>
                 <div class="feat-title">SSL & Certificate Analysis</div>
                 <div class="feat-desc">Full TLS inspection including certificate validity, issuer reputation, SAN mismatches, expiry checks, and detection of maliciously obtained certificates from trusted CAs.</div>
@@ -339,50 +233,10 @@
     </div>
 </section>
 
-<!-- ====== TESTIMONIALS ====== -->
-<section class="testimonials">
-    <div class="section-container">
-        <div class="section-eyebrow">What People Say</div>
-        <h2 class="section-title">Trusted by Security-Conscious Users</h2>
-        <p class="section-subtitle">From personal users to enterprise security professionals, PhishGuard earns trust every scan.</p>
 
-        <div class="testi-grid">
-            <div class="testi-card">
-                <div class="testi-stars">★★★★★</div>
-                <div class="testi-quote">"</div>
-                <div class="testi-text">Our SOC team processes over 2,000 suspicious URL reports a week. Integrating PhishGuard's API into our triage workflow cut analyst time on URL investigations by 70%. The redirect chain tracing alone is worth it.</div>
-                <div class="testi-author">
-                    <div class="testi-avatar">SK</div>
-                    <div>
-                        <div class="testi-name">Siddharth K.</div>
-                        <div class="testi-role">Senior Threat Analyst, FinTech Company</div>
-                    </div>
-                </div>
-            </div>
-            <div class="testi-card">
-                <div class="testi-stars">★★★★★</div>
-                <div class="testi-quote">"</div>
-                <div class="testi-text">I got an "urgent" email from what looked like my bank. PhishGuard flagged it as phishing in 1.2 seconds â€” the domain was registered just 4 days prior. This tool literally saved my savings account.</div>
-                <div class="testi-author">
-                    <div class="testi-avatar">MR</div>
-                    <div>
-                        <div class="testi-name">Meera R.</div>
-                        <div class="testi-role">Independent User, Chennai</div>
-                    </div>
-                </div>
-            </div>
-            <div class="testi-card">
-                <div class="testi-stars">★★★★★</div>
-                <div class="testi-quote">"</div>
-                <div class="testi-text">We use PhishGuard in our employee security awareness sessions to demonstrate live phishing detection. The detailed risk breakdown â€” SSL, domain age, brand impersonation score â€” makes for incredibly compelling training material.</div>
-                <div class="testi-author">
-                    <div class="testi-avatar">AP</div>
-                    <div>
-                        <div class="testi-name">Arjun P.</div>
-                        <div class="testi-role">Cybersecurity Trainer, EdTech Startup</div>
-                    </div>
-                </div>
-            </div>
+
+
+
         </div>
     </div>
 </section>
@@ -450,5 +304,6 @@
     </div>
 </footer>
 
+<script src="script.js"></script>
 </body>
 </html>
