@@ -78,9 +78,9 @@
         <button class="icon-btn" onclick="copyToClipboard()"><i class="fas fa-copy"></i> Copy</button>
         <button class="icon-btn" onclick="rescanCurrent()"><i class="fas fa-redo"></i> Re-scan</button>
     </div>
-    <div class="main-grid" style="display:flex; flex-direction:column; gap:1.4rem;">
+    <div class="main-grid scanner-main-grid">
         <!-- Row 1: URL Details (Left) + Website Preview (Center) + Threat Analysis (Right) -->
-        <div style="display:grid; grid-template-columns:1fr 1.2fr 1fr; gap:1.4rem;">
+        <div class="dashboard-row">
             <div class="dash-card">
                 <div class="dash-card-title"><i class="fas fa-info-circle"></i> URL Details</div>
                 <div class="info-row"><span class="info-key">IP Address</span><span class="info-val blue" id="ip-address-val">—</span></div>
@@ -94,10 +94,13 @@
                     <div id="cert-badge-wrap"><div class="cert-badge verified"><i class="fas fa-lock"></i> Verifying…</div></div>
                 </div>
             </div>
-            <div class="dash-card">
+            <div class="dash-card preview-card">
                 <div class="dash-card-title"><i class="fas fa-desktop"></i> Website Preview</div>
                 <div class="screenshot-wrap">
                     <img id="main-screenshot" src="https://via.placeholder.com/800x450/0d1929/3b82f6?text=Awaiting+Scan" alt="Preview">
+                    <div id="screenshot-error" class="screenshot-error" style="display:none;">
+                        Screenshot could not be fetched for this URL.
+                    </div>
                     <div class="screenshot-overlay"></div>
                 </div>
             </div>
@@ -117,7 +120,7 @@
         </div>
 
         <!-- Row 2: How This Was Detected (Full Width) -->
-        <div class="dash-card" style="max-width:1000px;margin:0 auto;">
+        <div class="dash-card detection-card">
             <div class="dash-card-title" style="text-align:center;"><i class="fas fa-search-plus"></i> How This Was Detected</div>
             <div class="detection-steps" id="detection-steps">
                 <div class="detection-step">
@@ -155,16 +158,6 @@
                 <div class="threat-icon-circle"><i class="fas fa-user-secret"></i></div>
                 <div class="threat-badge-name">Privacy First</div>
                 <p style="margin-top:0.75rem;color:#94afd4;font-size:0.92rem;">No scanned URLs are stored or logged. Your scans remain private and are only evaluated in real time.</p>
-            </div>
-            <div class="threat-badge-card">
-                <div class="threat-icon-circle"><i class="fas fa-brain"></i></div>
-                <div class="threat-badge-name">Continuous Learning</div>
-                <p style="margin-top:0.75rem;color:#94afd4;font-size:0.92rem;">The detection model evolves with new attack patterns and fresh threat intelligence to stay ahead of phishing campaigns.</p>
-            </div>
-            <div class="threat-badge-card">
-                <div class="threat-icon-circle"><i class="fas fa-lock"></i></div>
-                <div class="threat-badge-name">Secure by Design</div>
-                <p style="margin-top:0.75rem;color:#94afd4;font-size:0.92rem;">Our platform is designed to be secure, simple, and reliable for everyone from individual users to security teams.</p>
             </div>
         </div>
     </div>
@@ -213,8 +206,8 @@
         <h2 class="sec-title">Key Features</h2>
         <p class="sec-sub">Everything our scanner evaluates to protect you from modern phishing threats.</p>
         <div class="features-grid">
-            <div class="feat-row"><div class="feat-ico b1"><i class="fas fa-crosshairs"></i></div><div><div class="feat-title">High Precision DNN</div><div class="feat-desc">Deep Neural Network with batch normalization achieves 99.8% detection accuracy with a sub-0.03% false positive rate.</div></div></div>
-            <div class="feat-row"><div class="feat-ico b2"><i class="fas fa-expand"></i></div><div><div class="feat-title">Enterprise Scalable</div><div class="feat-desc">Handles millions of URL scans daily via a horizontally scaled API with 99.9% uptime SLA.</div></div></div>
+            <div class="feat-row"><div class="feat-ico b1"><i class="fas fa-crosshairs"></i></div><div><div class="feat-title">High Precision DNN</div><div class="feat-desc">Deep Neural Network with batch normalization achieves 96.8% detection accuracy with a sub 0.32% false positive rate.</div></div></div>
+            <div class="feat-row"><div class="feat-ico b2"><i class="fas fa-expand"></i></div><div><div class="feat-title">Enterprise Scalable</div><div class="feat-desc">Handles millions of URL scans daily via a horizontally scaled API with 96.8% uptime SLA.</div></div></div>
             <div class="feat-row"><div class="feat-ico b3"><i class="fas fa-shield-alt"></i></div><div><div class="feat-title">Zero Data Retention</div><div class="feat-desc">Scanned URLs are never stored or logged. Privacy is architecturally guaranteed, not just promised.</div></div></div>
             <div class="feat-row"><div class="feat-ico b4"><i class="fas fa-bolt"></i></div><div><div class="feat-title">Sub-2s Detection</div><div class="feat-desc">Parallel analysis pipelines deliver a complete threat verdict in under two seconds.</div></div></div>
         </div>
