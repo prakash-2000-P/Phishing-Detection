@@ -51,8 +51,19 @@ function addToHistory(url, status, tld, phishingPct, detectionDate) {
 
 function clearHistory() { saveHistory([]); renderAllHistory(); }
 
+function clearHistoryItem(event, url) {
+    event.stopPropagation();
+    const filtered = getHistory().filter(h => h.url !== url);
+    saveHistory(filtered);
+    renderAllHistory();
+}
+
 function escHtml(s) {
     return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function escJs(s) {
+    return (s || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'");
 }
 
 /* ── build the new table rows ── */
@@ -66,7 +77,7 @@ function buildTableRows(hist) {
         const short  = (h.url||'').replace(/^https?:\/\//,'').replace(/^www\./,'');
         const type   = h.threatType || getThreatType(h.status, h.tld);
         const ago    = relativeTime(h.ts || Date.now());
-        return `<tr onclick="loadFromHistory('${escHtml(h.url)}')">
+        return `<tr onclick="loadFromHistory('${escJs(h.url)}')">
             <td><span class="rt-url" title="${escHtml(h.url)}">${escHtml(short)}</span></td>
             <td><span class="rt-type">${escHtml(type)}</span></td>
             <td><span class="sev-pill ${cls}"><span class="sev-dot"></span>${label}</span></td>
@@ -78,7 +89,7 @@ function buildTableRows(hist) {
             <th>URL</th>
             <th>Type</th>
             <th>Severity</th>
-            <th style="text-align:right;">Detected</th>
+            <th style="text-align:center;">Detected</th>
         </tr></thead>
         <tbody>${rows}</tbody>
     </table>`;
@@ -238,9 +249,32 @@ function renderDashboard(url, data) {
     ).join('');
 
     const img = document.getElementById('main-screenshot');
-    if (data.screenshot) { img.src=data.screenshot; }
-    else { img.src=statusClass==='phishing'?'https://via.placeholder.com/800x450/1a0505/f87171?text=%E2%9A%A0+Phishing+Detected':'https://via.placeholder.com/800x450/0d1929/3d6494?text=No+Screenshot+Available'; }
-    img.onerror=()=>{img.src='https://via.placeholder.com/800x450/0d1929/3d6494?text=Screenshot+Unavailable';};
+    const screenshotError = document.getElementById('screenshot-error');
+    const showScreenshotError = () => {
+        if (screenshotError) {
+            screenshotError.textContent = 'Screenshot could not be fetched for this URL.';
+            screenshotError.style.display = 'inline-flex';
+        }
+    };
+    const hideScreenshotError = () => {
+        if (screenshotError) screenshotError.style.display = 'none';
+    };
+
+    if (data.screenshot) {
+        hideScreenshotError();
+        img.src = data.screenshot;
+    } else {
+        showScreenshotError();
+        img.src = statusClass==='phishing'
+            ? 'https://via.placeholder.com/800x450/1a0505/f87171?text=%E2%9A%A0+Phishing+Detected'
+            : 'https://via.placeholder.com/800x450/0d1929/3d6494?text=No+Screenshot+Available';
+    }
+
+    img.onerror = () => {
+        showScreenshotError();
+        img.src = 'https://via.placeholder.com/800x450/0d1929/3d6494?text=Screenshot+Unavailable';
+        img.onerror = null;
+    };
 
     dashboard.style.display='block';
     dashboard.scrollIntoView({behavior:'smooth',block:'start'});
@@ -334,9 +368,63 @@ function copyToClipboard() {
     }).catch(()=>{});
 }
 
-/* auto-refresh relative times every 30s */
-setInterval(renderAllHistory, 30000);
+function initIndexNavActiveState() {
+    const navLinks = Array.from(document.querySelectorAll('.nav-menu a'));
+    if (!navLinks.length) return;
 
-renderAllHistory();
-const params=new URLSearchParams(window.location.search);
-if (params.get('url')){urlInput.value=params.get('url');startScan(params.get('url'));}
+    const sections = navLinks
+        .map(link => link.getAttribute('href'))
+        .filter(href => href && href.startsWith('#'))
+        .map(hash => document.querySelector(hash))
+        .filter(Boolean);
+
+    function setActiveLinkByHash(hash) {
+        navLinks.forEach(link => {
+            if (link.getAttribute('href') === hash) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+        });
+    }
+
+    function updateActiveOnScroll() {
+        const scrollPosition = window.scrollY + window.innerHeight * 0.25;
+        let activeHash = '#home';
+
+        for (const section of sections) {
+            if (section.offsetTop <= scrollPosition) {
+                activeHash = '#' + section.id;
+            }
+        }
+
+        setActiveLinkByHash(activeHash);
+    }
+
+    navLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            navLinks.forEach(l => l.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+
+    window.addEventListener('scroll', updateActiveOnScroll, { passive: true });
+    window.addEventListener('hashchange', () => setActiveLinkByHash(window.location.hash || '#home'));
+    updateActiveOnScroll();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    initIndexNavActiveState();
+
+    // Scanner-only initialization for finial page.
+    if (!urlInput || !loadingWrap || !dashboard || !scanBtn) return;
+
+    setInterval(renderAllHistory, 30000);
+    renderAllHistory();
+
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('url')) {
+        urlInput.value = params.get('url');
+        startScan(params.get('url'));
+    }
+});
