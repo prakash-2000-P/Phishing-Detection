@@ -14,8 +14,6 @@ Clone this repo with the usefull
 ```
 ## Installation
 
----
-
 ```text
 git clone https://github.com/username/repository.git
 
