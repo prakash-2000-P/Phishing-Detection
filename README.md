@@ -1,5 +1,7 @@
-""" text
+```text
+Clone the repository
 
-Hello this project is for phishing detection
+Install dependencies
 
-"""
+Run the server
+```
